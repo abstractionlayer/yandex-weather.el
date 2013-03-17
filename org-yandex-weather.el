@@ -40,7 +40,6 @@
 Valid %-sequences are:
    - %i the icon;
    - %c means the weather condition;
-   - %L the supplied location;
    - %C the city the weather is for;
    - %l the lower temperature;
    - %h the higher temperature;
