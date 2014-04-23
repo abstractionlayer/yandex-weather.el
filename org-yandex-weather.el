@@ -58,10 +58,10 @@ Valid %-sequences are:
   :group 'org-yandex-weather)
 
 (defvar org-yandex-weather-wind-direction-symbols
-  '(("n" . "↑") ("ne" . "↗")
-    ("e" . "→") ("se" . "↘")
-    ("s" . "↓") ("sw" . "↙")
-    ("w" . "←") ("nw" . "↖"))
+  '(("n" . "↓") ("ne" . "↙")
+    ("e" . "←") ("se" . "↖")
+    ("s" . "↑") ("sw" . "↗")
+    ("w" . "→") ("nw" . "↘"))
 "The arrows for wind directions.")
 
 (defun org-yandex-weather-get-wind-direction-arrow-by-symbol (symbol)
