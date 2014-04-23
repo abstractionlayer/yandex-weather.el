@@ -43,6 +43,10 @@ Valid %-sequences are:
    - %C the city the weather is for;
    - %l the lower temperature;
    - %h the higher temperature;
+   - %p the pressure in mmHg;
+   - %d the wind direction;
+   - %w the wind speed;
+   - %H the humidity;
    - %s the temperature unit symbol.")
 
 (defcustom org-yandex-weather-cache-time 7200
@@ -52,6 +56,17 @@ Valid %-sequences are:
 (defcustom org-yandex-weather-display-icon-p t
   "Display icons."
   :group 'org-yandex-weather)
+
+(defvar org-yandex-weather-wind-direction-symbols
+  '(("n" . "↑") ("ne" . "↗")
+    ("e" . "→") ("se" . "↘")
+    ("s" . "↓") ("sw" . "↙")
+    ("w" . "←") ("nw" . "↖"))
+"The arrows for wind directions.")
+
+(defun org-yandex-weather-get-wind-direction-arrow-by-symbol (symbol)
+  "Return the arrow of wind direction by SYMBOL."
+  (cdr (assoc symbol org-yandex-weather-wind-direction-symbols)))
 
 (defun org-yandex-weather-get-icon (url)
   (with-current-buffer
@@ -93,6 +108,13 @@ If LOCATION isn't set, use org-yandex-weather-location."
                     forecast))
               (high (yandex-weather-forecast->avg-day-temperature
                      forecast))
+              (humidity (yandex-weather-forecast->humidity forecast))
+              (pressure (yandex-weather-forecast->pressure forecast))
+              (wind-speed (yandex-weather-forecast->wind-speed forecast))
+              (wind-direction
+               (org-yandex-weather-get-wind-direction-arrow-by-symbol
+                (yandex-weather-forecast->wind-direction
+                forecast)))
               (city (yandex-weather-data->city data))
               (icon 
                (when org-yandex-weather-display-icon-p
@@ -112,6 +134,10 @@ If LOCATION isn't set, use org-yandex-weather-location."
                          (?c . ,condition)
                          (?l . ,low)
                          (?h . ,high)
+                         (?p . ,pressure)
+                         (?d . ,wind-direction)
+                         (?w . ,wind-speed)
+                         (?H . ,humidity)
                          (?C . ,city)
                          (?s . ,yandex-weather-temperature-symbol))))))))
   

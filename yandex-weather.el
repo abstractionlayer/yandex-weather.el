@@ -17,7 +17,7 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program; if not, write to the Free Software
-;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  
+;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301, USA.
 
 (require 'url)
@@ -51,9 +51,9 @@
   (cond (url-standalone-mode
          (not (file-exists-p (url-cache-create-filename url))))
         (t (let ((cache-time (url-is-cached url)))
-             (if cache-time 
+             (if cache-time
                  (time-less-p
-                  (time-add 
+                  (time-add
                    cache-time
                    (seconds-to-time expire-time))
                   (current-time))
@@ -149,7 +149,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 (defun yandex-weather-forecast->day-part (forecast day-part)
   "Return required DAY-PART for the FORECAST."
   (let ((retvalue nil))
-    (mapcar (lambda (x) 
+    (mapcar (lambda (x)
               (when (equal (cdr (car (cdr (car (cdr x))))) day-part)
                 (setq retvalue x)))
             (xml-get-children forecast 'day_part))
@@ -158,25 +158,54 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 (defun yandex-weather-forecast->avg-night-temperature (forecast)
   "Return the average night temperature for the FORECAST."
   (nth 2 (car (xml-get-children
-               (car 
-                (xml-get-children 
+               (car
+                (xml-get-children
                  (yandex-weather-forecast->day-part forecast "night")
                  'temperature-data))
                'avg))))
 
 (defun yandex-weather-forecast->avg-day-temperature (forecast)
   "Return the average day temperature for the FORECAST."
-  (nth 2 (car (cdr (cdr (cdr (car 
-   (xml-get-children 
-    (yandex-weather-forecast->day-part forecast "day")
-    'temperature-data))))))))
+  (nth 2 (car (cdr (cdr (cdr (car
+                              (xml-get-children
+                               (yandex-weather-forecast->day-part forecast
+                                                                  "day")
+                               'temperature-data))))))))
 
 (defun yandex-weather-forecast->condition (forecast)
   "Return the condition for the FORECAST."
   (nth 2 (car
-   (xml-get-children
-    (yandex-weather-forecast->day-part forecast "day")
-    'weather_type_short))))
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           'weather_type_short))))
+
+(defun yandex-weather-forecast->pressure (forecast)
+  "Return the pressure for the FORECAST."
+  (nth 2 (car
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           'pressure))))
+
+(defun yandex-weather-forecast->humidity (forecast)
+  "Return the humidity for the FORECAST."
+  (nth 2 (car
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           'humidity))))
+
+(defun yandex-weather-forecast->wind-speed (forecast)
+  "Return the speed of wind for the FORECAST."
+  (nth 2 (car
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           'wind_speed))))
+
+(defun yandex-weather-forecast->wind-direction (forecast)
+  "Return the wind direction for the Forecast."
+  (nth 2 (car
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           'wind_direction))))
 
 (defun yandex-weather-forecast->icon (forecast)
   "Return the name of the icon for the FORECAST."
