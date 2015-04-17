@@ -1,8 +1,6 @@
 ;;; org-yandex-weather.el -- Show Yandex Weather forecasts in Org Agenda.
 
-;; This script based on google-weather.el originally written by Julien Danjou.
-
-;; Copyright (C) 2013 Whitesquall
+;; Copyright (C) 2013-2015 Whitesquall
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -21,7 +19,13 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301, USA.
 
+;; Commentary:
 
+;; The facility for the org-mode agenda.
+;; This script based on google-weather.el originally written by Julien Danjou.
+
+
+(require 'cl)
 (require 'yandex-weather)
 (require 'image)
 (require 'format-spec)

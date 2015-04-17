@@ -1,8 +1,6 @@
 ;;; yandex-weather.el --- Fetch Yandex Weather forecasts.
 
-;; This script based on google-weather.el originally written by Julien Danjou.
-
-;; Copyright (C) 2013 Whitesquall
+;; Copyright (C) 2013-2015 Whitesquall
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -21,7 +19,13 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301, USA.
 
+;;; Commentary:
 
+;; Parser for the yandex weather forecasts.
+;; This script based on google-weather.el originally written by Julien Danjou.
+
+
+(require 'cl)
 (require 'url)
 (require 'url-cache)
 (require 'xml)
