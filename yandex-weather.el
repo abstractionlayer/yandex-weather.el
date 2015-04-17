@@ -1,9 +1,10 @@
 ;;; yandex-weather.el --- Fetch Yandex Weather forecasts.
 
 ;; This script based on google-weather.el originally written by Julien Danjou.
-;; http://git.naquadah.org/?p=google-weather-el.git;a=summary
 
 ;; Copyright (C) 2013 Whitesquall
+
+;; This file is NOT part of GNU Emacs.
 
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License
@@ -20,11 +21,11 @@
 ;; Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
 ;; 02110-1301, USA.
 
+
 (require 'url)
 (require 'url-cache)
 (require 'xml)
 (require 'time-date)
-(require 'cl)
 
 (defgroup yandex-weather nil
   "Yandex Weather."
@@ -140,7 +141,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
         (forecasts (yandex-weather-data->forecasts data))
         (retvalue nil))
     ; Now we got the formated date and forecasts for all days.
-    (mapcar (lambda (x)
+    (mapc (lambda (x)
               (when (equal (cdr (car (car (cdr x)))) forecast-date)
                 (setq retvalue x)))
             forecasts)
@@ -149,7 +150,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 (defun yandex-weather-forecast->day-part (forecast day-part)
   "Return required DAY-PART for the FORECAST."
   (let ((retvalue nil))
-    (mapcar (lambda (x)
+    (mapc (lambda (x)
               (when (equal (cdr (car (cdr (car (cdr x))))) day-part)
                 (setq retvalue x)))
             (xml-get-children forecast 'day_part))
@@ -215,5 +216,6 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
            'image-v2))))
 
 (provide 'yandex-weather)
+
 
 ;;; yandex-weather.el ends here
