@@ -165,8 +165,10 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
         (retvalue nil))
     ; Now we got the formated date and forecasts for all days.
     (mapc (lambda (x)
-              (when (equal (cdr (car (car (cdr x)))) forecast-date)
-                (setq retvalue x)))
+            (when (equal
+                   (cdr (assq 'date (xml-node-attributes x)))
+                   forecast-date)
+              (setq retvalue x)))
             forecasts)
     retvalue))
 
@@ -174,9 +176,11 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
   "Return required DAY-PART for the FORECAST."
   (let ((retvalue nil))
     (mapc (lambda (x)
-              (when (equal (cdr (car (cdr (car (cdr x))))) day-part)
-                (setq retvalue x)))
-            (xml-get-children forecast 'day_part))
+            (when (equal
+                   (cdr (assq 'type (xml-node-attributes x)))
+                   day-part)
+              (setq retvalue x)))
+          (xml-get-children forecast 'day_part))
     retvalue))
 
 (defun yandex-weather-forecast->avg-temperature (forecast day-part)
