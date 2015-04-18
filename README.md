@@ -1,4 +1,4 @@
-yandex-weather.el v.0.2.
+yandex-weather.el v.0.3.
 ==============================================
 
 # Fetch Yandex Weather forecasts.
@@ -18,4 +18,3 @@ yandex-weather.el v.0.2.
 Where '27612' is ID of your city [from](http://weather.yandex.ru/static/cities.xml).
 
 The scripts are distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY! See license.
-
