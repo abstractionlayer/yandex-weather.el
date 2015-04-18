@@ -27,6 +27,8 @@
 ;; emacs -batch -Q -L .. -l yandex-weather-tests.el -f ert-run-tests-batch-and-exit
 ;;
 
+;;; Code:
+
 
 (require 'ert)
 (require 'yandex-weather)

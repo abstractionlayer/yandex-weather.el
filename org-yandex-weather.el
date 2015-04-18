@@ -24,6 +24,8 @@
 ;; The facility for the org-mode agenda.
 ;; This script based on google-weather.el originally written by Julien Danjou.
 
+;;; Code:
+
 
 (require 'cl)
 (require 'yandex-weather)
