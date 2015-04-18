@@ -179,64 +179,59 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
             (xml-get-children forecast 'day_part))
     retvalue))
 
-(defun yandex-weather-forecast->avg-night-temperature (forecast)
-  "Return the average night temperature for the FORECAST."
+(defun yandex-weather-forecast->avg-temperature (forecast day-part)
+  "Return the average temperature for the FORECAST and day DAY-PART."
   (nth 2 (car (xml-get-children
                (car
                 (xml-get-children
-                 (yandex-weather-forecast->day-part forecast "night")
+                 (yandex-weather-forecast->day-part forecast day-part)
                  'temperature-data))
                'avg))))
 
+(defun yandex-weather-forecast->avg-night-temperature (forecast)
+  "Return the average night temperature for the FORECAST."
+  (yandex-weather-forecast->avg-temperature forecast "night"))
+
 (defun yandex-weather-forecast->avg-day-temperature (forecast)
   "Return the average day temperature for the FORECAST."
-  (nth 2 (car (cdr (cdr (cdr (car
-                              (xml-get-children
-                               (yandex-weather-forecast->day-part forecast
-                                                                  "day")
-                               'temperature-data))))))))
+  (yandex-weather-forecast->avg-temperature forecast "day"))
+
+(defun yandex-weather-forecast->get-characteristic (forecast characteristic)
+  "Return the value of CHARACTERISTIC of FORECAST."
+  (nth 2 (car
+          (xml-get-children
+           (yandex-weather-forecast->day-part forecast "day")
+           characteristic))))
 
 (defun yandex-weather-forecast->condition (forecast)
   "Return the condition for the FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'weather_type_short))))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'weather_type_short))
 
 (defun yandex-weather-forecast->pressure (forecast)
   "Return the pressure for the FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'pressure))))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'pressure))
 
 (defun yandex-weather-forecast->humidity (forecast)
   "Return the humidity for the FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'humidity))))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'humidity))
 
 (defun yandex-weather-forecast->wind-speed (forecast)
   "Return the speed of wind for the FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'wind_speed))))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'wind_speed))
 
 (defun yandex-weather-forecast->wind-direction (forecast)
   "Return the wind direction for the Forecast."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'wind_direction))))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'wind_direction))
 
 (defun yandex-weather-forecast->icon (forecast)
   "Return the name of the icon for the FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           'image-v2))))
+ (yandex-weather-forecast->get-characteristic
+  forecast 'image-v2))
 
 (provide 'yandex-weather)
 
