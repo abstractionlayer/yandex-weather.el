@@ -91,13 +91,13 @@ You can run ert manually or using makefile."
         (let ((org-yandex-weather-display-icon-p nil)
               (org-yandex-weather-location "27612")
               (org-yandex-weather-format format))
-          (flet ((yandex-weather-get-data
-                  (location expire-time)
-                  data)
+          (cl-letf (((symbol-function 'yandex-weather-get-data)
+                     (lambda (location expire-time)
+                       data))
 
-                 (org-yandex-weather-check-interval
-                  (date)
-                  t))
+                    ((symbol-function 'org-yandex-weather-check-interval)
+                     (lambda (date)
+                       t)))
 
             (funcall body))))))
 
