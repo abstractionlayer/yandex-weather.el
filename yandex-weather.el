@@ -44,7 +44,7 @@
 ;;; Code:
 
 
-(require 'cl)
+(require 'cl-lib)
 (require 'url)
 (require 'url-cache)
 (require 'xml)

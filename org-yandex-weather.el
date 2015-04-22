@@ -27,7 +27,7 @@
 ;;; Code:
 
 
-(require 'cl)
+(require 'cl-lib)
 (require 'yandex-weather)
 (require 'image)
 (require 'format-spec)
@@ -144,13 +144,14 @@ plus 10 days. Else return nil."
 (defun org-yandex-weather (&optional location)
   "Return Org entry with the weather for LOCATION.
 If LOCATION isn't set, use org-yandex-weather-location."
-  (when (org-yandex-weather-check-interval date)
+  (when (org-yandex-weather-check-interval (with-no-warnings date))
     (let* ((location (or location org-yandex-weather-location))
            (data (ignore-errors
                    (yandex-weather-get-data location
                                             org-yandex-weather-cache-time)))
            (forecast (when data
-                       (yandex-weather-data->forecast-by-date data date))))
+                       (yandex-weather-data->forecast-by-date
+                        data (with-no-warnings date)))))
       (when forecast
         (org-yandex-weather-build-org-ret-string data forecast)))))
 
