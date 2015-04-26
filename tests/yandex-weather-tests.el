@@ -37,6 +37,31 @@
 (defvar yandex-weather-test-data-file "27612.xml"
   "The file with test data.")
 
+(defvar yandex-weather-test-icon-base64-data
+  "iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAYAAACddGYaAAAAAXNSR0IArs4c6QAAAAZiS0dEAO8A
+UQBRItXOlAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9gJDxcIBl8Z3A0AAAAZdEVYdENv
+bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAC0lEQVQI12NgwAUAABoAASRETuUAAAAASUVO
+RK5CYII="
+  "The simple png picture.")
+
+(defvar yandex-weather-test-get-icon-header
+  "HTTP/1.1 200 OK
+Server: nginx/1.7.10
+Date: Sun, 26 Apr 2015 09:36:35 GMT
+Content-Type: image/png
+Content-Length: 583
+Last-Modified: Wed, 06 Feb 2013 11:20:43 GMT
+Connection: keep-alive
+ETag: \"51123c8b-247\"
+Expires: Thu, 31 Dec 2037 23:55:55 GMT
+Cache-Control: max-age=315360000
+Cache-Control: public
+Access-Control-Allow-Origin: *
+Accept-Ranges: bytes
+
+"
+  "The header of the GET response returned `url-retrieve-synchronously'.")
+
 (ert-deftest yandex-weather-build-url-test ()
   "Test the mail url building."
   :tags '(yandex-weather)
@@ -94,12 +119,39 @@ You can run ert manually or using makefile."
           (cl-letf (((symbol-function 'yandex-weather-get-data)
                      (lambda (location expire-time)
                        data))
-
                     ((symbol-function 'org-yandex-weather-check-interval)
                      (lambda (date)
                        t)))
-
             (funcall body))))))
+
+(defun yandex-weather-build-server-response ()
+  "Return the response of the server with the test icon data."
+  (concat yandex-weather-test-get-icon-header
+          (base64-decode-string yandex-weather-test-icon-base64-data)))
+
+(defun yandex-weather-get-icon-fixture (body date format data)
+  (unwind-protect
+      (progn
+        (let ((org-yandex-weather-display-icon-p t)
+              (org-yandex-weather-format format))
+          (cl-letf (((symbol-function 'url-retrieve-synchronously)
+                     (lambda (url)
+                       (let ((buffer nil))
+                         (switch-to-buffer " *tmp*")
+                         (insert (yandex-weather-build-server-response))
+                         (setq buffer (current-buffer))
+                         buffer)))
+                    ((symbol-function 'yandex-weather-get-data)
+                     (lambda (location expire-time)
+                       data))
+                    ((symbol-function 'org-yandex-weather-check-interval)
+                     (lambda (date)
+                       t)))
+            (funcall body))))))
+
+(defun yandex-weather-extract-icon-data-from-propertized-string (string)
+  (plist-get (cdr (get-text-property 0 'display string))
+             :data))
 
 (ert-deftest org-yandex-weather-test ()
   "Test the org entry with the weather for location."
@@ -128,8 +180,20 @@ You can run ert manually or using makefile."
         (equal (org-yandex-weather) nil)))
      (list 1 25 2015)
      "%C: %i %c, [%l,%h]%s, %d%w %p %H"
-     data))
-  )
+     data)
+
+    (yandex-weather-get-icon-fixture
+     (lambda ()
+       (should
+        (string-equal
+         (yandex-weather-extract-icon-data-from-propertized-string
+          (org-yandex-weather))
+         (base64-decode-string yandex-weather-test-icon-base64-data))))
+     (list 1 15 2015)
+     "%i"
+     data)
+
+    ))
 
 
 ;;; yandex-weather-tests.el ends here
