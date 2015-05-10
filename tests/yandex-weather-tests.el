@@ -180,8 +180,12 @@ You can run ert manually or using makefile."
         (equal (org-yandex-weather) nil)))
      (list 1 25 2015)
      "%C: %i %c, [%l,%h]%s, %d%w %p %H"
-     data)
+     data)))
 
+(ert-deftest org-yandex-weather-icon-data-test ()
+  "Test the icon in the forecast."
+  :tags '(yandex-weather)
+  (let ((data (yandex-weather-get-test-data)))
     (yandex-weather-get-icon-fixture
      (lambda ()
        (should
@@ -191,8 +195,22 @@ You can run ert manually or using makefile."
          (base64-decode-string yandex-weather-test-icon-base64-data))))
      (list 1 15 2015)
      "%i"
-     data)
+     data)))
 
+(ert-deftest org-yandex-weather-forecast->icon-name-test ()
+  "Test the icon name from the forecast data."
+  :tags '(yandex-weather)
+  (let ((data (yandex-weather-get-test-data)))
+    (should
+     (string-equal
+      (yandex-weather-forecast->icon
+       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
+      "ovc_+2"))
+
+    (should
+     (not
+      (yandex-weather-forecast->icon
+       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
     ))
 
 
