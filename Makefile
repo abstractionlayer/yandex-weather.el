@@ -14,7 +14,8 @@ EXTRA_DIST = README.md LICENSE
 all : compile
 
 test:
-	$(BATCH) -L tests -l tests/yandex-weather-tests.el -f ert-run-tests-batch
+	$(BATCH) -L tests -l tests/yandex-weather-tests.el \
+		-f ert-run-tests-batch-and-exit
 
 compile: $(ELC)
 
