@@ -228,7 +228,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
    forecast 'wind_speed))
 
 (defun yandex-weather-forecast->wind-direction (forecast)
-  "Return the wind direction for the Forecast."
+  "Return the wind direction for the FORECAST."
   (yandex-weather-forecast->get-characteristic
    forecast 'wind_direction))
 
