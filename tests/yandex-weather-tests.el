@@ -276,4 +276,21 @@ You can run ert manually or using makefile."
      (yandex-weather-forecast->humidity
       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
    ))
+
+(ert-deftest org-yandex-weather-forecast->condition-test ()
+ "Test the condition from the forecast data."
+ :tags '(yandex-weather)
+ (let ((data (yandex-weather-get-test-data)))
+   (should
+    (string-equal
+     (yandex-weather-forecast->condition
+      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
+     "облачно"))
+
+   (should
+    (not
+     (yandex-weather-forecast->condition
+      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   ))
+
 ;;; yandex-weather-tests.el ends here
