@@ -31,6 +31,7 @@
 
 
 (require 'ert)
+(require 'rng-loc)
 (require 'yandex-weather)
 (require 'org-yandex-weather)
 
@@ -104,11 +105,19 @@ You can run ert manually or using makefile."
 (defun yandex-weather-get-test-data ()
   "Return mocked test xml data."
   (with-current-buffer
-      (find-file (yandex-weather-find-file-with-test-data))
+      (yandex-weather-open-xml-file-suppress-msg-what-schema-is-used)
     (let ((data (xml-parse-region (point-min)
                                   (point-max))))
       (kill-buffer (current-buffer))
       data)))
+
+(defun yandex-weather-open-xml-file-suppress-msg-what-schema-is-used ()
+  "Open file with test data without printing message what schema is used.
+Running tests looks more cleaner."
+  (cl-letf (((symbol-function 'rng-what-schema)
+             (lambda ()
+               (interactive))))
+           (find-file (yandex-weather-find-file-with-test-data))))
 
 (defun yandex-weather-get-data-fixture (body date format data)
   (unwind-protect
