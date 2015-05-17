@@ -1,7 +1,7 @@
 yandex-weather.el v.0.3.
 ==============================================
 
-# Fetch Yandex Weather forecasts
+## Fetch Yandex Weather forecasts
 
 ![Screenshot](screenshot.png?raw=true)
 
