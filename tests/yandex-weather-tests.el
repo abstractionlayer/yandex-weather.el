@@ -309,4 +309,21 @@ You can run ert manually or using makefile."
       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
    ))
 
+(ert-deftest org-yandex-weather-forecast->avg-day-temperature-test ()
+ "Test the average day temperature from the forecast data."
+ :tags '(yandex-weather)
+ (let ((data (yandex-weather-get-test-data)))
+   (should
+    (string-equal
+     (yandex-weather-forecast->avg-day-temperature
+      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
+     "2"))
+
+   (should
+    (not
+     (yandex-weather-forecast->avg-day-temperature
+      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   ))
+
+
 ;;; yandex-weather-tests.el ends here
