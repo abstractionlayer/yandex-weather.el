@@ -1,4 +1,4 @@
-yandex-weather.el v.0.3.
+yandex-weather.el v.0.4.
 ==============================================
 
 ## Fetch Yandex Weather forecasts
