@@ -216,10 +216,9 @@ Running tests looks more cleaner."
        (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
       "ovc_+2"))
 
-    (should
-     (not
-      (yandex-weather-forecast->icon
-       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+    (should-not
+     (yandex-weather-forecast->icon
+      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
 (ert-deftest org-yandex-weather-forecast->wind-direction-test ()
@@ -232,10 +231,9 @@ Running tests looks more cleaner."
        (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
       "w"))
 
-    (should
-     (not
-      (yandex-weather-forecast->wind-direction
-       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+    (should-not
+     (yandex-weather-forecast->wind-direction
+      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
 (ert-deftest org-yandex-weather-forecast->wind-speed-test ()
@@ -248,10 +246,9 @@ Running tests looks more cleaner."
        (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
       "4.7"))
 
-    (should
-     (not
-      (yandex-weather-forecast->wind-direction
-       (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+    (should-not
+     (yandex-weather-forecast->wind-direction
+      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
 (ert-deftest org-yandex-weather-forecast->pressure-test ()
@@ -264,10 +261,9 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
      "746"))
 
-   (should
-    (not
-     (yandex-weather-forecast->pressure
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   (should-not
+    (yandex-weather-forecast->pressure
+     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
 (ert-deftest org-yandex-weather-forecast->humidity-test ()
@@ -280,10 +276,9 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
      "93"))
 
-   (should
-    (not
-     (yandex-weather-forecast->humidity
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   (should-not
+    (yandex-weather-forecast->humidity
+     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
 (ert-deftest org-yandex-weather-forecast->condition-test ()
@@ -296,10 +291,9 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
      "облачно"))
 
-   (should
-    (not
-     (yandex-weather-forecast->condition
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   (should-not
+    (yandex-weather-forecast->condition
+     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
 (ert-deftest org-yandex-weather-forecast->avg-night-temperature-test ()
@@ -312,10 +306,9 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
      "-1"))
 
-   (should
-    (not
-     (yandex-weather-forecast->avg-night-temperature
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   (should-not
+    (yandex-weather-forecast->avg-night-temperature
+     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
 (ert-deftest org-yandex-weather-forecast->avg-day-temperature-test ()
@@ -328,10 +321,9 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
      "2"))
 
-   (should
-    (not
-     (yandex-weather-forecast->avg-day-temperature
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015)))))
+   (should-not
+    (yandex-weather-forecast->avg-day-temperature
+     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
 
