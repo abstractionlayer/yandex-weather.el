@@ -206,7 +206,7 @@ Running tests looks more cleaner."
      "%i"
      data)))
 
-(ert-deftest org-yandex-weather-forecast->icon-name-test ()
+(ert-deftest yandex-weather-forecast->icon-name-test ()
   "Test the icon name from the forecast data."
   :tags '(yandex-weather)
   (let ((data (yandex-weather-get-test-data)))
@@ -221,7 +221,7 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
-(ert-deftest org-yandex-weather-forecast->wind-direction-test ()
+(ert-deftest yandex-weather-forecast->wind-direction-test ()
   "Test the wind direction from the forecast data."
   :tags '(yandex-weather)
   (let ((data (yandex-weather-get-test-data)))
@@ -236,7 +236,7 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
-(ert-deftest org-yandex-weather-forecast->wind-speed-test ()
+(ert-deftest yandex-weather-forecast->wind-speed-test ()
   "Test the wind speed from the forecast data."
   :tags '(yandex-weather)
   (let ((data (yandex-weather-get-test-data)))
@@ -251,7 +251,7 @@ Running tests looks more cleaner."
       (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
     ))
 
-(ert-deftest org-yandex-weather-forecast->pressure-test ()
+(ert-deftest yandex-weather-forecast->pressure-test ()
  "Test the pressure from the forecast data."
  :tags '(yandex-weather)
  (let ((data (yandex-weather-get-test-data)))
@@ -266,7 +266,7 @@ Running tests looks more cleaner."
      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
-(ert-deftest org-yandex-weather-forecast->humidity-test ()
+(ert-deftest yandex-weather-forecast->humidity-test ()
  "Test the humidity from the forecast data."
  :tags '(yandex-weather)
  (let ((data (yandex-weather-get-test-data)))
@@ -281,7 +281,7 @@ Running tests looks more cleaner."
      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
-(ert-deftest org-yandex-weather-forecast->condition-test ()
+(ert-deftest yandex-weather-forecast->condition-test ()
  "Test the condition from the forecast data."
  :tags '(yandex-weather)
  (let ((data (yandex-weather-get-test-data)))
@@ -296,7 +296,7 @@ Running tests looks more cleaner."
      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
-(ert-deftest org-yandex-weather-forecast->avg-night-temperature-test ()
+(ert-deftest yandex-weather-forecast->avg-night-temperature-test ()
  "Test the average night temperature from the forecast data."
  :tags '(yandex-weather)
  (let ((data (yandex-weather-get-test-data)))
@@ -311,7 +311,7 @@ Running tests looks more cleaner."
      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
    ))
 
-(ert-deftest org-yandex-weather-forecast->avg-day-temperature-test ()
+(ert-deftest yandex-weather-forecast->avg-day-temperature-test ()
  "Test the average day temperature from the forecast data."
  :tags '(yandex-weather)
  (let ((data (yandex-weather-get-test-data)))
