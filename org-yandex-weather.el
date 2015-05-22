@@ -58,7 +58,11 @@ Valid %-sequences are:
    - %s the temperature unit symbol.")
 
 (defcustom org-yandex-weather-cache-time 7200
-  "Define how many seconds we should cache the weather."
+  "Define how many seconds we should cache the weather forecast."
+  :group 'org-yandex-weather)
+
+(defcustom org-yandex-weather-cache-icon-time 15552000
+  "Define how many seconds we should cache icons for the forecast."
   :group 'org-yandex-weather)
 
 (defcustom org-yandex-weather-display-icon-p t
@@ -78,7 +82,7 @@ Valid %-sequences are:
 
 (defun org-yandex-weather-get-icon (url)
   (with-current-buffer
-      (yandex-weather-retrieve-data-raw url org-yandex-weather-cache-time)
+      (yandex-weather-retrieve-data-raw url org-yandex-weather-cache-icon-time)
     (goto-char (point-min))
     (unless (search-forward "\n\n" nil t)
       (error "Data not found."))
