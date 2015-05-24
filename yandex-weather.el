@@ -125,6 +125,20 @@ to 0 force a cache renewal."
       (kill-buffer (current-buffer))
       data)))
 
+(defun yandex-weather-retrieve-icon (url &optional expire-time)
+  (with-current-buffer (yandex-weather-retrieve-data-raw url expire-time)
+    (goto-char (point-min))
+    (unless (search-forward "\n\n" nil t)
+      (error "Data not found."))
+    (set-buffer-multibyte nil)
+    (let ((data (buffer-substring (point) (point-max))))
+      (kill-buffer (current-buffer))
+      data)))
+
+(defun yandex-weather-get-icon (icon-name)
+  (yandex-weather-retrieve-icon
+   (yandex-weather-build-icon-url icon-name)))
+
 (defun yandex-weather-build-url (location)
   "Build URL to retrieve weather for LOCATION.
 LOCATION can be finded http://weather.yandex.ru/static/cities.xml .

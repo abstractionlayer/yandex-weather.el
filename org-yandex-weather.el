@@ -80,17 +80,6 @@ Valid %-sequences are:
   "Return the arrow of wind direction by SYMBOL."
   (cdr (assoc symbol org-yandex-weather-wind-direction-symbols)))
 
-(defun org-yandex-weather-get-icon (url)
-  (with-current-buffer
-      (yandex-weather-retrieve-data-raw url org-yandex-weather-cache-icon-time)
-    (goto-char (point-min))
-    (unless (search-forward "\n\n" nil t)
-      (error "Data not found."))
-    (set-buffer-multibyte nil)
-    (let ((data (buffer-substring (point) (point-max))))
-      (kill-buffer (current-buffer))
-      data)))
-
 (defun org-yandex-weather-check-interval (date)
   "Return t if DATE places between current day and current day
 plus 10 days. Else return nil."
@@ -108,9 +97,8 @@ plus 10 days. Else return nil."
 `org-yandex-weather-display-icon-p'."
   (when org-yandex-weather-display-icon-p
     (create-image
-     (org-yandex-weather-get-icon
-      (yandex-weather-build-icon-url
-       (yandex-weather-forecast->icon forecast)))
+     (yandex-weather-get-icon
+      (yandex-weather-forecast->icon forecast))
      'png t)))
 
 (defun org-yandex-weather-build-org-ret-string (data forecast)
