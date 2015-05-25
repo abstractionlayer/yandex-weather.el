@@ -183,16 +183,15 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
                    (cdr (assq 'date (xml-node-attributes x)))
                    forecast-date)
               (setq retvalue x)))
-            forecasts)
+          forecasts)
     retvalue))
 
 (defun yandex-weather-forecast->day-part (forecast day-part)
   "Return required DAY-PART for the FORECAST."
   (let ((retvalue nil))
     (mapc (lambda (x)
-            (when (equal
-                   (cdr (assq 'type (xml-node-attributes x)))
-                   day-part)
+            (when (equal (cdr (assq 'type (xml-node-attributes x)))
+                         day-part)
               (setq retvalue x)))
           (xml-get-children forecast 'day_part))
     retvalue))
@@ -216,10 +215,8 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 
 (defun yandex-weather-forecast->get-characteristic (forecast characteristic)
   "Return the value of CHARACTERISTIC of FORECAST."
-  (nth 2 (car
-          (xml-get-children
-           (yandex-weather-forecast->day-part forecast "day")
-           characteristic))))
+  (nth 2 (car (xml-get-children (yandex-weather-forecast->day-part
+                                 forecast "day") characteristic))))
 
 (defun yandex-weather-forecast->condition (forecast)
   "Return the condition for the FORECAST."
@@ -248,8 +245,8 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 
 (defun yandex-weather-forecast->icon (forecast)
   "Return the name of the icon for the FORECAST."
- (yandex-weather-forecast->get-characteristic
-  forecast 'image-v2))
+  (yandex-weather-forecast->get-characteristic
+   forecast 'image-v2))
 
 (provide 'yandex-weather)
 

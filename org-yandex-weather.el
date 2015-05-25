@@ -74,7 +74,7 @@ Valid %-sequences are:
     ("e" . "←") ("se" . "↖")
     ("s" . "↑") ("sw" . "↗")
     ("w" . "→") ("nw" . "↘"))
-"The arrows for wind directions.")
+  "The arrows for wind directions.")
 
 (defun org-yandex-weather-get-wind-direction-arrow-by-symbol (symbol)
   "Return the arrow of wind direction by SYMBOL."
