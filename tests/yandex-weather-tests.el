@@ -63,19 +63,19 @@ Accept-Ranges: bytes
 "
   "The header of the GET response returned `url-retrieve-synchronously'.")
 
-(ert-deftest yandex-weather-build-url-test ()
+(ert-deftest yandex-weather-build-forecast-url-test ()
   "Test the mail url building."
   :tags '(yandex-weather)
   (should
    (let ((yandex-weather-use-https nil))
      (string-equal
-      (yandex-weather-build-url "27612")
+      (yandex-weather-build-forecast-url "27612")
       "http://export.yandex.ru/weather-ng/forecasts/27612.xml")))
 
   (should
    (let ((yandex-weather-use-https t))
      (string-equal
-      (yandex-weather-build-url "27612")
+      (yandex-weather-build-forecast-url "27612")
       "https://export.yandex.ru/weather-ng/forecasts/27612.xml")))
   )
 

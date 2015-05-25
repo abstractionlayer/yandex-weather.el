@@ -59,7 +59,7 @@
   :group 'yandex-weather
   :type 'boolean)
 
-(defconst yandex-weather-url
+(defconst yandex-weather-forecast-url
   "export.yandex.ru/weather-ng/forecasts/"
   "URL of the API.")
 
@@ -139,12 +139,12 @@ to 0 force a cache renewal."
   (yandex-weather-retrieve-icon
    (yandex-weather-build-icon-url icon-name)))
 
-(defun yandex-weather-build-url (location)
+(defun yandex-weather-build-forecast-url (location)
   "Build URL to retrieve weather for LOCATION.
 LOCATION can be finded http://weather.yandex.ru/static/cities.xml .
 We need 'id' field in the 'city' tag."
   (concat "http" (when yandex-weather-use-https "s")
-          "://" yandex-weather-url location ".xml"))
+          "://" yandex-weather-forecast-url location ".xml"))
 
 (defun yandex-weather-build-icon-url (icon-num)
   "Build URL to retrieve icon for weather."
@@ -155,7 +155,7 @@ We need 'id' field in the 'city' tag."
   "Get weather data for LOCATION.
 See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
   (yandex-weather-retrieve-data
-   (yandex-weather-build-url location) expire-time))
+   (yandex-weather-build-forecast-url location) expire-time))
 
 (defun yandex-weather-data->all-info (data)
   "Return all weather information from DATA."
