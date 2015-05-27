@@ -206,6 +206,31 @@ Running tests looks more cleaner."
      "%i"
      data)))
 
+(defun org-yandex-weather-check-interval-fixture (body)
+  (unwind-protect
+      (progn
+        (cl-letf (((symbol-function 'current-time)
+                   (lambda ()
+                     '(21861 31875 628007 217000))))
+          (funcall body)))))
+
+(ert-deftest org-yandex-weather-check-interval-test ()
+  "Test interval of dates for forecasts. The function should return t
+if DATE between current day and current day plus 10 days. Else return nil."
+  :tags '( yandex-weather)
+  (org-yandex-weather-check-interval-fixture
+   (lambda ()
+     (should
+      (equal (org-yandex-weather-check-interval (list 5 27 2015))
+             t))
+
+     (should-not
+      (org-yandex-weather-check-interval (list 5 26 2015)))
+
+     (should-not
+      (org-yandex-weather-check-interval (list 6 6 2015)))
+     )))
+
 (ert-deftest yandex-weather-forecast->icon-name-test ()
   "Test the icon name from the forecast data."
   :tags '(yandex-weather)
