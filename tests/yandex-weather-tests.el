@@ -221,11 +221,16 @@ if DATE between current day and current day plus 10 days. Else return nil."
   (org-yandex-weather-check-interval-fixture
    (lambda ()
      (should
-      (equal (org-yandex-weather-check-interval (list 5 27 2015))
-             t))
+      (equal (org-yandex-weather-check-interval (list 5 27 2015)) t))
 
      (should-not
       (org-yandex-weather-check-interval (list 5 26 2015)))
+
+     (should
+      (equal (org-yandex-weather-check-interval (list 5 31 2015)) t))
+
+     (should
+      (equal (org-yandex-weather-check-interval (list 6 5 2015)) t))
 
      (should-not
       (org-yandex-weather-check-interval (list 6 6 2015)))
