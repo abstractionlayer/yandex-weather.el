@@ -179,9 +179,8 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
         (retvalue nil))
     ; Now we got the formated date and forecasts for all days.
     (mapc (lambda (x)
-            (when (equal
-                   (cdr (assq 'date (xml-node-attributes x)))
-                   forecast-date)
+            (when (equal (cdr (assq 'date (xml-node-attributes x)))
+                         forecast-date)
               (setq retvalue x)))
           forecasts)
     retvalue))
