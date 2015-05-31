@@ -98,7 +98,8 @@ plus 10 days. Else return nil."
   (when org-yandex-weather-display-icon-p
     (create-image
      (yandex-weather-get-icon
-      (yandex-weather-forecast->icon forecast))
+      (yandex-weather-forecast->icon forecast)
+      org-yandex-weather-cache-icon-time)
      'png t)))
 
 (defun org-yandex-weather-build-org-ret-string (data forecast)

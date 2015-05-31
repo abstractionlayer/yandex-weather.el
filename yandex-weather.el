@@ -135,9 +135,10 @@ to 0 force a cache renewal."
       (kill-buffer (current-buffer))
       data)))
 
-(defun yandex-weather-get-icon (icon-name)
+(defun yandex-weather-get-icon (icon-name &optional expire-time)
   (yandex-weather-retrieve-icon
-   (yandex-weather-build-icon-url icon-name)))
+   (yandex-weather-build-icon-url icon-name)
+   expire-time))
 
 (defun yandex-weather-build-forecast-url (location)
   "Build URL to retrieve weather for LOCATION.
