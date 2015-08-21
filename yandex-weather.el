@@ -221,7 +221,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
 (defun yandex-weather-forecast->condition (forecast)
   "Return the condition for the FORECAST."
   (yandex-weather-forecast->get-characteristic
-   forecast 'weather_type_short))
+   forecast 'weather_type))
 
 (defun yandex-weather-forecast->pressure (forecast)
   "Return the pressure for the FORECAST."
