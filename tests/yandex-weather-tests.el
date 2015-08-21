@@ -170,8 +170,8 @@ Running tests looks more cleaner."
      (lambda ()
        (should
         (string-equal (org-yandex-weather)
-                      "Москва:  облачно, [-1,2]°C, →4.7 746 93")))
-     (list 1 15 2015)
+                      "Москва:  ясно, [13,23]°C, ↓3.5 758 42")))
+     (list 8 21 2015)
      "%C: %i %c, [%l,%h]%s, %d%w %p %H"
      data)
 
@@ -179,7 +179,7 @@ Running tests looks more cleaner."
      (lambda ()
        (should
         (equal (org-yandex-weather) nil)))
-     (list 1 14 2015)
+     (list 8 20 2015)
      "%C: %i %c, [%l,%h]%s, %d%w %p %H"
      data)
 
@@ -187,7 +187,7 @@ Running tests looks more cleaner."
      (lambda ()
        (should
         (equal (org-yandex-weather) nil)))
-     (list 1 25 2015)
+     (list 9 1 2015)
      "%C: %i %c, [%l,%h]%s, %d%w %p %H"
      data)))
 
@@ -202,7 +202,7 @@ Running tests looks more cleaner."
          (yandex-weather-extract-icon-data-from-propertized-string
           (org-yandex-weather))
          (base64-decode-string yandex-weather-test-icon-base64-data))))
-     (list 1 15 2015)
+     (list 8 21 2015)
      "%i"
      data)))
 
@@ -243,12 +243,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
     (should
      (string-equal
       (yandex-weather-forecast->icon
-       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-      "ovc_+2"))
+       (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+      "skc_d_+24"))
 
     (should-not
      (yandex-weather-forecast->icon
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+      (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
     ))
 
 (ert-deftest yandex-weather-forecast->wind-direction-test ()
@@ -258,12 +258,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
     (should
      (string-equal
       (yandex-weather-forecast->wind-direction
-       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-      "w"))
+       (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+      "n"))
 
     (should-not
      (yandex-weather-forecast->wind-direction
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+      (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
     ))
 
 (ert-deftest yandex-weather-forecast->wind-speed-test ()
@@ -273,12 +273,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
     (should
      (string-equal
       (yandex-weather-forecast->wind-speed
-       (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-      "4.7"))
+       (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+      "3.5"))
 
     (should-not
      (yandex-weather-forecast->wind-direction
-      (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+      (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
     ))
 
 (ert-deftest yandex-weather-forecast->pressure-test ()
@@ -288,12 +288,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
    (should
     (string-equal
      (yandex-weather-forecast->pressure
-      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-     "746"))
+      (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+     "758"))
 
    (should-not
     (yandex-weather-forecast->pressure
-     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+     (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
    ))
 
 (ert-deftest yandex-weather-forecast->humidity-test ()
@@ -303,12 +303,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
    (should
     (string-equal
      (yandex-weather-forecast->humidity
-      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-     "93"))
+      (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+     "42"))
 
    (should-not
     (yandex-weather-forecast->humidity
-     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+     (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
    ))
 
 (ert-deftest yandex-weather-forecast->condition-test ()
@@ -318,12 +318,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
    (should
     (string-equal
      (yandex-weather-forecast->condition
-      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-     "облачно"))
+      (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+     "ясно"))
 
    (should-not
     (yandex-weather-forecast->condition
-     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+     (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
    ))
 
 (ert-deftest yandex-weather-forecast->avg-night-temperature-test ()
@@ -333,12 +333,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
    (should
     (string-equal
      (yandex-weather-forecast->avg-night-temperature
-      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-     "-1"))
+      (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+     "13"))
 
    (should-not
     (yandex-weather-forecast->avg-night-temperature
-     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+     (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
    ))
 
 (ert-deftest yandex-weather-forecast->avg-day-temperature-test ()
@@ -348,12 +348,12 @@ if DATE between current day and current day plus 10 days. Else return nil."
    (should
     (string-equal
      (yandex-weather-forecast->avg-day-temperature
-      (yandex-weather-data->forecast-by-date data (list 1 15 2015)))
-     "2"))
+      (yandex-weather-data->forecast-by-date data (list 8 21 2015)))
+     "23"))
 
    (should-not
     (yandex-weather-forecast->avg-day-temperature
-     (yandex-weather-data->forecast-by-date data (list 1 14 2015))))
+     (yandex-weather-data->forecast-by-date data (list 8 20 2015))))
    ))
 
 
