@@ -54,7 +54,7 @@
   "Yandex Weather."
   :group 'comm)
 
-(defcustom yandex-weather-use-https nil
+(defcustom yandex-weather-use-https t
   "Default protocol to use to access the Yandex Weather API."
   :group 'yandex-weather
   :type 'boolean)
