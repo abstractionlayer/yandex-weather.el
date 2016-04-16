@@ -1,6 +1,6 @@
 ;;; yandex-weather.el --- Fetch Yandex Weather forecasts.
 
-;; Copyright (C) 2013-2015 Whitesquall
+;; Copyright (C) 2013-2016 Whitesquall
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -63,9 +63,10 @@
   "export.yandex.ru/weather-ng/forecasts/"
   "URL of the API.")
 
-(defconst yandex-weather-icon-url
-  "yandex.st/weather/1.1.86/i/icons/22x22/"
-  "URL of the icons.")
+(defconst yandex-weather-icon-dir
+  (concat (file-name-directory (or load-file-name buffer-file-name))
+           "icons/")
+  "Directory with the icons.")
 
 (defconst yandex-weather-temperature-symbol "°C"
   "Temperature symbol.")
@@ -125,20 +126,17 @@ to 0 force a cache renewal."
       (kill-buffer (current-buffer))
       data)))
 
-(defun yandex-weather-retrieve-icon (url &optional expire-time)
-  (with-current-buffer (yandex-weather-retrieve-data-raw url expire-time)
-    (goto-char (point-min))
-    (unless (search-forward "\n\n" nil t)
-      (error "Data not found."))
+(defun yandex-weather-build-icon-path (icon-name)
+  (concat yandex-weather-icon-dir icon-name ".png"))
+
+(defun yandex-weather-get-icon (icon-name)
+  (with-current-buffer
+      (find-file-noselect (yandex-weather-build-icon-path icon-name)
+                          :nowarn :rawfile)
     (set-buffer-multibyte nil)
-    (let ((data (buffer-substring (point) (point-max))))
+    (let ((data (buffer-substring (point-min) (point-max))))
       (kill-buffer (current-buffer))
       data)))
-
-(defun yandex-weather-get-icon (icon-name &optional expire-time)
-  (yandex-weather-retrieve-icon
-   (yandex-weather-build-icon-url icon-name)
-   expire-time))
 
 (defun yandex-weather-build-forecast-url (location)
   "Build URL to retrieve weather for LOCATION.
@@ -146,11 +144,6 @@ LOCATION can be finded http://weather.yandex.ru/static/cities.xml .
 We need 'id' field in the 'city' tag."
   (concat "http" (when yandex-weather-use-https "s")
           "://" yandex-weather-forecast-url location ".xml"))
-
-(defun yandex-weather-build-icon-url (icon-num)
-  "Build URL to retrieve icon for weather."
-  (concat "http" (when yandex-weather-use-https "s")
-          "://" yandex-weather-icon-url icon-num ".png"))
 
 (defun yandex-weather-get-data (location &optional expire-time)
   "Get weather data for LOCATION.
@@ -178,7 +171,7 @@ See `yandex-weather-retrieve-data' for the use of EXPIRE-TIME."
                                (nth 1 date)))
         (forecasts (yandex-weather-data->forecasts data))
         (retvalue nil))
-    ; Now we got the formated date and forecasts for all days.
+    ; Now we have the formated date and forecasts for all days.
     (mapc (lambda (x)
             (when (equal (cdr (assq 'date (xml-node-attributes x)))
                          forecast-date)

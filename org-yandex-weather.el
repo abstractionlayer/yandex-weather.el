@@ -1,6 +1,6 @@
 ;;; org-yandex-weather.el -- Show Yandex Weather forecasts in Org Agenda.
 
-;; Copyright (C) 2013-2015 Whitesquall
+;; Copyright (C) 2013-2016 Whitesquall
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -61,10 +61,6 @@ Valid %-sequences are:
   "Define how many seconds we should cache the weather forecast."
   :group 'org-yandex-weather)
 
-(defcustom org-yandex-weather-cache-icon-time 15552000
-  "Define how many seconds we should cache icons for the forecast."
-  :group 'org-yandex-weather)
-
 (defcustom org-yandex-weather-display-icon-p t
   "Display icons."
   :group 'org-yandex-weather)
@@ -98,8 +94,7 @@ plus 10 days. Else return nil."
   (when org-yandex-weather-display-icon-p
     (create-image
      (yandex-weather-get-icon
-      (yandex-weather-forecast->icon forecast)
-      org-yandex-weather-cache-icon-time)
+      (yandex-weather-forecast->icon forecast))
      'png t)))
 
 (defun org-yandex-weather-build-org-ret-string (data forecast)

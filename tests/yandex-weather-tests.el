@@ -1,6 +1,6 @@
 ;;; yandex-weather-tests.el -- Regression tests.
 
-;; Copyright (C) 2013-2015 Whitesquall
+;; Copyright (C) 2013-2016 Whitesquall
 
 ;; This file is NOT part of GNU Emacs.
 
@@ -43,25 +43,7 @@
 UQBRItXOlAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9gJDxcIBl8Z3A0AAAAZdEVYdENv
 bW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAAC0lEQVQI12NgwAUAABoAASRETuUAAAAASUVO
 RK5CYII="
-  "The simple png picture.")
-
-(defvar yandex-weather-test-get-icon-header
-  "HTTP/1.1 200 OK
-Server: nginx/1.7.10
-Date: Sun, 26 Apr 2015 09:36:35 GMT
-Content-Type: image/png
-Content-Length: 583
-Last-Modified: Wed, 06 Feb 2013 11:20:43 GMT
-Connection: keep-alive
-ETag: \"51123c8b-247\"
-Expires: Thu, 31 Dec 2037 23:55:55 GMT
-Cache-Control: max-age=315360000
-Cache-Control: public
-Access-Control-Allow-Origin: *
-Accept-Ranges: bytes
-
-"
-  "The header of the GET response returned `url-retrieve-synchronously'.")
+  "The simplest PNG picture.")
 
 (ert-deftest yandex-weather-build-forecast-url-test ()
   "Test the mail url building."
@@ -77,22 +59,6 @@ Accept-Ranges: bytes
      (string-equal
       (yandex-weather-build-forecast-url "27612")
       "https://export.yandex.ru/weather-ng/forecasts/27612.xml")))
-  )
-
-(ert-deftest yandex-weather-build-icon-url-test ()
-  "Test the url building."
-  :tags '(yandex-weather)
-  (should
-   (let ((yandex-weather-use-https nil))
-     (string-equal
-      (yandex-weather-build-icon-url "bkn_n_+2")
-      "http://yandex.st/weather/1.1.86/i/icons/22x22/bkn_n_+2.png")))
-
-  (should
-   (let ((yandex-weather-use-https t))
-     (string-equal
-      (yandex-weather-build-icon-url "bkn_n_+2")
-      "https://yandex.st/weather/1.1.86/i/icons/22x22/bkn_n_+2.png")))
   )
 
 (defun yandex-weather-find-file-with-test-data ()
@@ -143,11 +109,12 @@ Running tests looks more cleaner."
       (progn
         (let ((org-yandex-weather-display-icon-p t)
               (org-yandex-weather-format format))
-          (cl-letf (((symbol-function 'url-retrieve-synchronously)
-                     (lambda (url)
+          (cl-letf (((symbol-function 'find-file-noselect)
+                     (lambda (file-path warn rawfile)
                        (let ((buffer nil))
                          (switch-to-buffer " *tmp*")
-                         (insert (yandex-weather-build-server-response))
+                         (insert (base64-decode-string
+                                  yandex-weather-test-icon-base64-data))
                          (setq buffer (current-buffer))
                          buffer)))
                     ((symbol-function 'yandex-weather-get-data)
