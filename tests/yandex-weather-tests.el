@@ -112,7 +112,8 @@ Running tests looks more cleaner."
           (cl-letf (((symbol-function 'find-file-noselect)
                      (lambda (file-path warn rawfile)
                        (let ((buffer nil))
-                         (switch-to-buffer " *tmp*")
+                         (generate-new-buffer
+                          (generate-new-buffer-name " *tmp*"))
                          (insert (base64-decode-string
                                   yandex-weather-test-icon-base64-data))
                          (setq buffer (current-buffer))

@@ -86,7 +86,8 @@
 
 (defun yandex-weather-cache-fetch (url)
   "Fetch URL from the cache."
-  (with-current-buffer (generate-new-buffer " *temp*")
+  (with-current-buffer
+      (generate-new-buffer (generate-new-buffer-name " *temp*"))
     (url-cache-extract (url-cache-create-filename url))
     (current-buffer)))
 
