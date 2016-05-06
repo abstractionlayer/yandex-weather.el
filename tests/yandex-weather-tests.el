@@ -99,11 +99,6 @@ Running tests looks more cleaner."
                        t)))
             (funcall body))))))
 
-(defun yandex-weather-build-server-response ()
-  "Return the response of the server with the test icon data."
-  (concat yandex-weather-test-get-icon-header
-          (base64-decode-string yandex-weather-test-icon-base64-data)))
-
 (defun yandex-weather-get-icon-fixture (body date format data)
   (unwind-protect
       (progn
